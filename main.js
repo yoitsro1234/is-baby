@@ -2,8 +2,31 @@ img  = "";
 status = "";
 objects = [];
 
+
 function preload(){
-    img = loadImage("dog_cat.jpg")
+    video = createVideo("video.mp4");
+    video.hide();
+}
+
+function setup(){
+    canvas = createCanvas(480, 380);
+}
+
+function draw(){
+    image(video, 0, 0, 480, 380);
+}
+
+function start(){
+    objectDetector = ml5.objectDetector('cocossd', modelLoaded);
+    document.getElementById("status").innerHTML = "Status: Detecting Objects";
+}
+
+function modelLoaded(){
+    console.log("Model Loaded!");
+    status = true;
+    video.loop();
+    video.speed(1);
+    video.volume(0);
 }
 
 function setup(){
@@ -20,8 +43,11 @@ function setup(){
 
 function modelLoaded(){
     console.log("Model Loaded, p o g");
-    status = true;
     objectDetector.detect(video, gotResult);
+    status = true;
+    video.loop();
+    video.speed(1);
+    video.volume(0);
 }
 
 function gotResult(error, results){
